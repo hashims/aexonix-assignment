@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const morgan = require('morgan');
-const winston = require('./util/logger');
+const logger = require('./util/logger');
 
 const sequelize = require('./util/database');
 
@@ -11,7 +11,6 @@ require('./models/user');
 
 // ROUTES
 const userRoutes = require('./routes/users');
-const logger = require('./util/logger');
 
 const app = express();
 
@@ -21,7 +20,7 @@ app.use(cors({
 }));
 
 const logOptions = ':method :url :status :res[content-length] - :response-time ms';
-app.use(morgan(logOptions, { stream: winston.stream }));
+app.use(morgan(logOptions, { stream: logger.stream }));
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
